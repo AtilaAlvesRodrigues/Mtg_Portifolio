@@ -1,0 +1,219 @@
+/* Estilos gerais para o corpo da página */
+body {
+  font-family: Arial, sans-serif;
+  transition: background-color 0.3s ease;
+  background-color: #f4f4f4;
+}
+
+/* Estilos para a barra de pesquisa */
+.search-bar {
+  margin: 20px auto;
+  width: 80%;
+  max-width: 600px;
+}
+
+/* Estilos para o container dos cards */
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 20px auto;
+  width: 90%;
+  max-width: 950px;
+}
+
+/* Estilos para cada card */
+.card {
+  width: 23.5%;
+  height: auto;
+  margin: 5px;
+  transition: transform 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  color: inherit;
+  cursor: pointer;
+  max-width: 220px;
+}
+
+/* Efeito de hover nos cards */
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Estilos para a imagem do card */
+.card-img-container {
+  position: relative;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: 0;
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+.card-img-top {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.card-img-container img {
+  will-change: transform;
+}
+
+.card:hover .card-img-container {
+  opacity: 1;
+}
+
+.card:hover .card-img-top {
+  transform: scale(1.1);
+}
+
+/* Oculta todos os cards inicialmente */
+.card-container>.card {
+  display: none;
+}
+
+/* Mostra os primeiros 16 cards (para a paginação inicial) */
+.card-container>.card:nth-child(-n+16) {
+  display: block;
+}
+
+/* Estilos para a paginação */
+.pagination {
+  justify-content: center;
+  margin-top: 20px;
+  font-size: 0.8em;
+}
+
+/* Ajustes responsivos */
+@media (max-width: 768px) {
+  .card {
+    width: calc(50% - 20px);
+  }
+
+  .search-bar {
+    width: 95%;
+    max-width: none;
+  }
+}
+
+@media (max-width: 576px) {
+  .card {
+    width: calc(100% - 20px);
+  }
+}
+
+/* SweetAlert2 Styles */
+.swal2-popup {
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+}
+
+.swal2-title {
+  color: #333;
+  font-size: 2em;
+  margin-bottom: 20px;
+}
+
+.swal2-content {
+  color: #555;
+  font-size: 1.2em;
+  line-height: 1.6;
+}
+
+/* Custom styles for the popup */
+.custom-popup {
+  width: 90%;
+  height: 93%;
+  max-width: 800px;
+}
+
+/* Custom styles for the image */
+.custom-image {
+  object-fit: contain;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.card-details {
+    width: 100%;
+    font-size: 14px;
+    color: #333;
+    padding-left: 20px;
+    overflow-y: auto;
+}
+
+.purchase-options {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.purchase-icon {
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    vertical-align: middle;
+}
+
+.purchase-links {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    padding: 12px 16px;
+    z-index: 1;
+    white-space: normal;
+    display: none;
+}
+
+.purchase-links a {
+    color: black;
+    padding: 8px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.purchase-links a:hover {
+    background-color: #ddd;
+}
+
+.purchase-options-below {
+  margin-top: 10px;
+}
+
+.purchase-links-below {
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    padding: 12px 16px;
+    z-index: 1;
+    white-space: normal;
+    display: none;
+}
+
+.purchase-links-below a {
+    color: black;
+    padding: 8px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.purchase-links-below a:hover {
+    background-color: #ddd;
+}
