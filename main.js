@@ -12,6 +12,7 @@ $(document).ready(function () {
     const searchKeywordInput = $("#searchKeyword");
     const apiUrl = "https://mtgjson.com/api/v5/10E.json";
     const defaultImageUrl = "URL_TO_DEFAULT_IMAGE"; // Certifique-se de ter uma imagem padrão
+    let hasFailedToLoadImage = false;
 
     // Carregar anime.js apenas se necessário
     const animeCDN = document.createElement('script');
@@ -23,7 +24,20 @@ $(document).ready(function () {
     }
     document.head.appendChild(animeCDN);
 
-    setBackgroundColor("");
+    function setBackgroundColor(color) {
+        let backgroundColor = "#d3d3d3"; // Default to grey
+
+        switch (color) {
+            case "w": backgroundColor = "#efe2d1"; break;
+            case "u": backgroundColor = "#b7d7e8"; break;
+            case "b": backgroundColor = "#b0b0b0"; break;
+            case "r": backgroundColor = "#e6c0c0"; break;
+            case "g": backgroundColor = "#c6e3bd"; break;
+            case "colorless": backgroundColor = "#d3d3d3"; break;
+        }
+
+        $("body").css("background-color", backgroundColor);
+    }
 
     function fetchCards() {
         $.ajax({
@@ -105,6 +119,26 @@ $(document).ready(function () {
                 .attr("alt", card.name)
                 .on("error", function () {
                     $(this).attr("src", defaultImageUrl);
+                    // If image fails to load, display card name
+                    cardElement.text(card.name);
+                    cardElement.css({
+                        'display': 'flex',
+                        'justify-content': 'center',
+                        'align-items': 'center',
+                        'font-size': '1em',
+                        'font-weight': 'bold',
+                        'color': '#555',
+                        'text-align': 'center'
+                    });
+                    if (!hasFailedToLoadImage) {
+                        Swal.fire({
+                            title: 'Erro ao carregar imagens',
+                            text: 'Algumas imagens não puderam ser carregadas. Verifique sua conexão com a internet ou tente novamente mais tarde.',
+                            icon: 'error',
+                            confirmButtonText: 'OK'
+                        });
+                        hasFailedToLoadImage = true;
+                    }
                 });
 
             const cardImgContainer = $("<div>").addClass("card-img-container").append(img);
@@ -173,68 +207,6 @@ $(document).ready(function () {
         pagination.html(paginationHtml);
     }
 
-    function setBackgroundColor(color) {
-        let backgroundColor = "#d3d3d3"; // Default to grey
-
-        switch (color) {
-            case "w": backgroundColor = "#efe2d1"; break;
-            case "u": backgroundColor = "#b7d7e8"; break;
-            case "b": backgroundColor = "#b0b0b0"; break;
-            case "r": backgroundColor = "#e6c0c0"; break;
-            case "g": backgroundColor = "#c6e3bd"; break;
-            case "colorless": backgroundColor = "#d3d3d3"; break;
-        }
-
-        $("body").css("background-color", backgroundColor);
-    }
-
-    $("#clearFilters").on("click", () => {
-        searchNameInput.val("");
-        searchTypeInput.val("");
-        searchManaCostInput.val("");
-        searchColorInput.val("");
-        searchKeywordInput.val("");
-
-        setBackgroundColor("");
-        currentPage = 1;
-        displayCards(allCards);
-    });
-
-    pagination.on("click", "a", function (e) {
-        e.preventDefault();
-        const pageNumber = parseInt($(this).data("page"));
-        if (pageNumber && pageNumber > 0) {  // Verifica se o número da página é válido
-            currentPage = pageNumber;
-            displayCards(allCards);
-        }
-    });
-
-    searchNameInput.on("keyup", () => {
-        currentPage = 1;
-        displayCards(allCards);
-    });
-
-    searchTypeInput.on("change", () => {
-        currentPage = 1;
-        displayCards(allCards);
-    });
-
-    searchManaCostInput.on("keyup", () => {
-        currentPage = 1;
-        displayCards(allCards);
-    });
-
-    searchColorInput.on("change", function () {
-        currentPage = 1;
-        setBackgroundColor($(this).val());
-        displayCards(allCards);
-    });
-
-    searchKeywordInput.on("change", () => {
-        currentPage = 1;
-        displayCards(allCards);
-    });
-
     function openCardPopup(card) {
         const imageUrl = card.identifiers?.scryfallId
             ? `https://api.scryfall.com/cards/${card.identifiers.scryfallId}/?format=image`
@@ -293,4 +265,51 @@ $(document).ready(function () {
             }
         });
     }
+
+    $("#clearFilters").on("click", () => {
+        searchNameInput.val("");
+        searchTypeInput.val("");
+        searchManaCostInput.val("");
+        searchColorInput.val("");
+        searchKeywordInput.val("");
+
+        setBackgroundColor("");
+        currentPage = 1;
+        displayCards(allCards);
+    });
+
+    pagination.on("click", "a", function (e) {
+        e.preventDefault();
+        const pageNumber = parseInt($(this).data("page"));
+        if (pageNumber && pageNumber > 0) {  // Verifica se o número da página é válido
+            currentPage = pageNumber;
+            displayCards(allCards);
+        }
+    });
+
+    searchNameInput.on("keyup", () => {
+        currentPage = 1;
+        displayCards(allCards);
+    });
+
+    searchTypeInput.on("change", () => {
+        currentPage = 1;
+        displayCards(allCards);
+    });
+
+    searchManaCostInput.on("keyup", () => {
+        currentPage = 1;
+        displayCards(allCards);
+    });
+
+    searchColorInput.on("change", function () {
+        currentPage = 1;
+        setBackgroundColor($(this).val());
+        displayCards(allCards);
+    });
+
+    searchKeywordInput.on("change", () => {
+        currentPage = 1;
+        displayCards(allCards);
+    });
 });
